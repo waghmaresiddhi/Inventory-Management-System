@@ -1,7 +1,6 @@
-from django.contrib import admin
 from django.urls import path
+from . import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    # Add your other URL patterns here
+    path('', views.inventory_list, name='inventory_list'),  # Root URL for 'inventoryy' app
 ]

@@ -3,5 +3,5 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('inventory_management/', include('inventoryy.urls')),
+    path('', include('inventoryy.urls')),  # Root URL should include 'inventoryy' app URLs
 ]
