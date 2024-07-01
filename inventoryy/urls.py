@@ -2,5 +2,5 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.inventory_list, name='inventory_list'), 
+    # Define your URL patterns for the inventory management app here
 ]

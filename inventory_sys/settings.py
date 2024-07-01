@@ -5,9 +5,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = get_random_secret_key()
 
-DEBUG = True
+DEBUG = True  # Set to False in production
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'yourdomain.com', 'www.yourdomain.com']
-
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -34,8 +33,8 @@ ROOT_URLCONF = 'inventory_sys.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
+        'DIRS': [],  # Add any additional directories if needed
+        'APP_DIRS': True,  # Look for templates in app directories
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
@@ -56,6 +55,10 @@ DATABASES = {
     }
 }
 
+# Static files (CSS, JavaScript, Images)
+STATIC_URL = '/static/'
+
+# Password validation
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -71,14 +74,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Internationalization
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
-
-STATIC_URL = '/static/'
