@@ -2,5 +2,5 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.inventory_list, name='inventory_list'),  # Root URL for 'inventoryy' app
+    path('', views.inventory_list, name='inventory_list'), 
 ]
