@@ -1,6 +1,6 @@
 from django.urls import path
-from . import views
+from .views import InventoryListView
 
 urlpatterns = [
-    # Define your URL patterns for the inventory management app here
+    path('', InventoryListView.as_view(), name='inventory_list'),
 ]
