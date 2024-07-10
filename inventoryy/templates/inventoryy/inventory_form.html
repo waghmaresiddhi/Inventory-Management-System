@@ -1,14 +1,11 @@
-{% extends 'base.html' %}
-
-{% block title %}Create Inventory Item - Inventory Management System{% endblock %}
+<!-- inventory_form.html -->
+{% extends 'inventoryy/base.html' %}
 
 {% block content %}
-<div class="container">
-    <h1 class="mt-4">Create Inventory Item</h1>
+    <h2>{% if form.instance.pk %}Update Item: {{ form.instance.name }}{% else %}Create New Item{% endif %}</h2>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit" class="btn btn-primary mt-3">Save</button>
+        <button type="submit">Save</button>
     </form>
-</div>
 {% endblock %}

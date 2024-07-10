@@ -1,4 +1,3 @@
-<!-- dashboard.html -->
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -15,14 +14,16 @@
             <li><a href="#addItemModal" data-bs-toggle="modal">Add New Item</a></li>
             <li><a href="{% url 'inventory-list' %}">View Inventory</a></li>
             <li><a href="{% url 'inventory-create' %}">Create Item</a></li>
-            <!-- Update link with correct URL -->
-            {% if inventory_items %}
-                {% for item in inventory_items %}
-                    <li><a href="{% url 'inventory-update' pk=item.pk %}">Update {{ item.name }}</a></li>
-                {% endfor %}
-            {% endif %}
-            <!-- Example: <li><a href="{% url 'inventory-update' pk=item.pk %}">Update</a></li> -->
-            <!-- Example: <li><a href="{% url 'inventory-delete' pk=item.pk %}">Delete</a></li> -->
+            <!-- Update and Delete links -->
+            {% for item in inventory_items %}
+                <li>
+                    <a href="{% url 'inventory-update' pk=item.pk %}">Update {{ item.name }}</a>
+                    <form action="{% url 'inventory-delete' pk=item.pk %}" method="post" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit">Delete</button>
+                    </form>
+                </li>
+            {% endfor %}
         </ul>
     </nav>
     

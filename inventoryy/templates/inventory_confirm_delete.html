@@ -1,16 +1,11 @@
+<!-- inventory_confirm_delete.html -->
 {% extends 'base.html' %}
-
-{% block title %}Confirm Delete - Inventory Management System{% endblock %}
-
 {% block content %}
-<div class="container">
-    <h1 class="mt-4">Confirm Delete</h1>
+    <h2>Confirm Delete: {{ inventory_item.name }}</h2>
     <p>Are you sure you want to delete "{{ inventory_item.name }}"?</p>
-    
-    <form method="post">
+    <form action="{% url 'inventory-delete' pk=inventory_item.pk %}" method="post">
         {% csrf_token %}
-        <button type="submit" class="btn btn-danger">Confirm Delete</button>
-        <a href="{% url 'inventory-detail' pk=inventory_item.pk %}" class="btn btn-secondary">Cancel</a>
+        <button type="submit">Confirm Delete</button>
+        <a href="{% url 'inventory-detail' pk=inventory_item.pk %}">Cancel</a>
     </form>
-</div>
 {% endblock %}

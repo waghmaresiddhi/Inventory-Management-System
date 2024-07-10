@@ -1,19 +1,19 @@
+<!-- inventory_list.html -->
 {% extends 'base.html' %}
-
-{% block title %}Inventory List - Inventory Management System{% endblock %}
-
 {% block content %}
-<div class="container">
-    <h1 class="mt-4">Inventory List</h1>
-    <ul class="list-group mt-3">
+    <h2>Inventory List</h2>
+    <ul>
         {% for item in inventory_items %}
-        <li class="list-group-item">
-            <a href="{% url 'inventoryy:inventory-detail' pk=item.pk %}">{{ item.name }}</a>
-        </li>
+            <li>
+                <a href="{% url 'inventory-detail' pk=item.pk %}">{{ item.name }}</a>
+                <a href="{% url 'inventory-update' pk=item.pk %}">Update</a>
+                <form action="{% url 'inventory-delete' pk=item.pk %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit">Delete</button>
+                </form>
+            </li>
         {% empty %}
-        <li class="list-group-item">No items found.</li>
+            <li>No items found.</li>
         {% endfor %}
     </ul>
-    <!-- Add pagination links if needed -->
-</div>
 {% endblock %}

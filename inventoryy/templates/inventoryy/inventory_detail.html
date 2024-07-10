@@ -1,24 +1,15 @@
+<!-- inventory_detail.html -->
 {% extends 'base.html' %}
-
-{% block title %}Inventory Detail - Inventory Management System{% endblock %}
-
 {% block content %}
-<div class="container">
-    <h1 class="mt-4">Inventory Detail</h1>
-    <div class="card mt-4">
-        <div class="card-body">
-            <h5 class="card-title">{{ inventory_item.name }}</h5>
-            <p class="card-text"><strong>Description:</strong> {{ inventory_item.description }}</p>
-            <p class="card-text"><strong>Quantity:</strong> {{ inventory_item.quantity }}</p>
-            <p class="card-text"><strong>Unit Price:</strong> {{ inventory_item.unit_price }}</p>
-            <p class="card-text"><strong>Manufacture Date:</strong> {{ inventory_item.manufacture_date }}</p>
-            <p class="card-text"><strong>Purchase Date:</strong> {{ inventory_item.purchase_date }}</p>
-            <p class="card-text"><strong>Supplier:</strong> {{ inventory_item.supplier }}</p>
-            <p class="card-text"><strong>Location:</strong> {{ inventory_item.location }}</p>
-            <p class="card-text"><strong>Activity Status:</strong> {% if inventory_item.activity_status %} Active {% else %} Inactive {% endif %}</p>
-            <p class="card-text"><strong>Created At:</strong> {{ inventory_item.created_at }}</p>
-            <p class="card-text"><strong>Updated At:</strong> {{ inventory_item.updated_at }}</p>
-        </div>
-    </div>
-</div>
+    <h2>Inventory Item Detail: {{ inventory_item.name }}</h2>
+    <p><strong>Name:</strong> {{ inventory_item.name }}</p>
+    <p><strong>Description:</strong> {{ inventory_item.description }}</p>
+    <p><strong>Quantity:</strong> {{ inventory_item.quantity }}</p>
+    <p><strong>Unit Price:</strong> {{ inventory_item.unit_price }}</p>
+    <!-- Add other fields as needed -->
+    <a href="{% url 'inventory-update' pk=inventory_item.pk %}">Update</a>
+    <form action="{% url 'inventory-delete' pk=inventory_item.pk %}" method="post" style="display: inline;">
+        {% csrf_token %}
+        <button type="submit">Delete</button>
+    </form>
 {% endblock %}
