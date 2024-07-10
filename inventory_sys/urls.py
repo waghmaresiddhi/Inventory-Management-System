@@ -1,7 +1,9 @@
-from django.contrib import admin
+# urls.py (project level)
+
 from django.urls import path, include
+from django.contrib import admin
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('inventory_management/', include('inventoryy.urls')),
+    path('', include('inventoryy.urls')),  # Include app-level URLs
 ]

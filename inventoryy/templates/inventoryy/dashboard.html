@@ -1,0 +1,94 @@
+<!-- dashboard.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Inventory Management Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <!-- Navigation links -->
+        <ul>
+            <li><a href="#addItemModal" data-bs-toggle="modal">Add New Item</a></li>
+            <li><a href="{% url 'inventory-list' %}">View Inventory</a></li>
+            <li><a href="{% url 'inventory-create' %}">Create Item</a></li>
+            <!-- Update link with correct URL -->
+            {% if inventory_items %}
+                {% for item in inventory_items %}
+                    <li><a href="{% url 'inventory-update' pk=item.pk %}">Update {{ item.name }}</a></li>
+                {% endfor %}
+            {% endif %}
+            <!-- Example: <li><a href="{% url 'inventory-update' pk=item.pk %}">Update</a></li> -->
+            <!-- Example: <li><a href="{% url 'inventory-delete' pk=item.pk %}">Delete</a></li> -->
+        </ul>
+    </nav>
+    
+    <!-- Chart section -->
+    <div class="chart-container">
+        <canvas id="myChart" width="400" height="200"></canvas>
+    </div>
+
+    <script>
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+                datasets: [{
+                    label: 'Inventory Items',
+                    data: [12, 19, 3, 5, 2, 3],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+
+    <!-- Modal for adding new item -->
+    <div class="modal fade" id="addItemModal" tabindex="-1" aria-labelledby="addItemModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addItemModalLabel">Add New Item</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Form for adding new item -->
+                    <form method="post" action="{% url 'inventory-create' %}">
+                        {% csrf_token %}
+                        <input type="text" name="name" placeholder="Name" required>
+                        <input type="number" name="quantity" placeholder="Quantity" required>
+                        <input type="submit" value="Add Item">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

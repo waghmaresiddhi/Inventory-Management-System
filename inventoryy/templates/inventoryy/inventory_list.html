@@ -1,51 +1,19 @@
 {% extends 'base.html' %}
 
-{% block title %}Inventory List{% endblock %}
+{% block title %}Inventory List - Inventory Management System{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-    <h1>Inventory List</h1>
-    <form method="get" class="mb-3">
-        <div class="input-group">
-            <input type="text" class="form-control" name="q" placeholder="Search..." value="{{ request.GET.q }}">
-            <button type="submit" class="btn btn-primary">Search</button>
-        </div>
-    </form>
-    <div class="table-responsive">
-        <table class="table table-striped table-hover">
-            <thead class="thead-dark">
-                <tr>
-                    <th>Name</th>
-                    <th>Quantity</th>
-                    <th>Unit Price</th>
-                    <th>Manufacture Date</th>
-                    <th>Purchase Date</th>
-                    <th>Supplier</th>
-                    <th>Location</th>
-                    <th>Is Active</th>
-                    <th>Category</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for item in inventory_items %}
-                <tr>
-                    <td>{{ item.name }}</td>
-                    <td>{{ item.quantity }}</td>
-                    <td>${{ item.unit_price }}</td>
-                    <td>{{ item.manufacture_date|date:"F d, Y" }}</td>
-                    <td>{{ item.purchase_date|date:"F d, Y" }}</td>
-                    <td>{{ item.supplier }}</td>
-                    <td>{{ item.location }}</td>
-                    <td>{% if item.is_active %}<span class="badge badge-success">Active</span>{% else %}<span class="badge badge-secondary">Inactive</span>{% endif %}</td>
-                    <td>{{ item.category.name }}</td>
-                </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="9" class="text-center">No inventory items found.</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+<div class="container">
+    <h1 class="mt-4">Inventory List</h1>
+    <ul class="list-group mt-3">
+        {% for item in inventory_items %}
+        <li class="list-group-item">
+            <a href="{% url 'inventoryy:inventory-detail' pk=item.pk %}">{{ item.name }}</a>
+        </li>
+        {% empty %}
+        <li class="list-group-item">No items found.</li>
+        {% endfor %}
+    </ul>
+    <!-- Add pagination links if needed -->
 </div>
 {% endblock %}
