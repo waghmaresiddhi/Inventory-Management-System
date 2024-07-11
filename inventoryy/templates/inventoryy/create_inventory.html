@@ -1,11 +1,13 @@
-<!-- inventoryy/templates/inventoryy/create_inventory.html -->
+<!-- create_inventory.html -->
+{% extends 'inventoryy/base.html' %}
 
-{% extends 'base.html' %}
+{% block title %}Create Inventory Item{% endblock %}
+
 {% block content %}
-  <h2>Create Inventory Item</h2>
-  <form method="post">
+<h1>Create Inventory Item</h1>
+<form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Create Item</button>
-  </form>
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
 {% endblock %}

@@ -1,151 +1,20 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inventory Management Dashboard</title>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-SqLj+gwQDth1Td+P5m+yV7cGPoJk2tb0wDZGz3k8Js5kcc+mTZqXc7M2aFoZZf7rDY4xMXrL5Qv9Ed5sWV/5tQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        .dashboard-header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        .dashboard-header h1 {
-            color: #343a40;
-            font-size: 36px;
-            margin-bottom: 10px;
-        }
-        .dashboard-header p {
-            color: #6c757d;
-            font-size: 18px;
-            font-weight: 300;
-        }
-        .navbar {
-            background-color: #343a40;
-            padding: 10px 0;
-            margin-bottom: 30px;
-        }
-        .navbar ul {
-            list-style-type: none;
-            padding: 0;
-            text-align: center;
-        }
-        .navbar ul li {
-            display: inline-block;
-            margin-right: 20px;
-        }
-        .navbar ul li a {
-            color: #ffffff;
-            text-decoration: none;
-            font-size: 18px;
-            transition: all 0.3s ease;
-        }
-        .navbar ul li a:hover {
-            color: #ffc107;
-        }
-        .chart-container {
-            background-color: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            padding: 20px;
-            margin-bottom: 30px;
-        }
-        .recent-activity {
-            background-color: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            padding: 20px;
-            margin-bottom: 30px;
-        }
-        .recent-activity h2 {
-            color: #343a40;
-            font-size: 24px;
-            margin-bottom: 15px;
-        }
-        .recent-activity ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        .recent-activity ul li {
-            margin-bottom: 10px;
-            color: #6c757d;
-        }
-        .inventory-summary {
-            background-color: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            padding: 20px;
-            margin-bottom: 30px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-        }
-        .summary-item {
-            text-align: center;
-            padding: 15px;
-            background-color: #f8f9fa;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .summary-item h3 {
-            color: #343a40;
-            font-size: 20px;
-            margin-bottom: 10px;
-        }
-        .summary-item p {
-            color: #6c757d;
-            font-size: 24px;
-            margin: 0;
-            font-weight: bold;
-        }
-    </style>
-</head>
-<body>
-    <nav class="navbar">
-        <div class="container">
-            <ul>
-                <li><a href="{% url 'inventory-list' %}"><i class="fas fa-list"></i> View Inventory</a></li>
-                <li><a href="{% url 'inventory-create' %}"><i class="fas fa-plus-circle"></i> Create Item</a></li>
-                <!-- Update and Delete links -->
-                {% for item in inventory_items %}
-                    <li>
-                        <a href="{% url 'inventory-update' pk=item.pk %}">
-                            <i class="fas fa-edit"></i> Update {{ item.name }}
-                        </a>
-                        <form action="{% url 'inventory-delete' pk=item.pk %}" method="post" style="display: inline;">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-link"><i class="fas fa-trash-alt"></i> Delete</button>
-                        </form>
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
-    </nav>
-    
-    <div class="container">
-        <div class="dashboard-header">
-            <h1>Welcome to Inventory Management Dashboard</h1>
-            <p>Monitor and manage your inventory with ease</p>
-        </div>
+{% extends 'inventoryy/base.html' %}
 
-        <!-- Chart section -->
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="dashboard-header">
+    <h1>Welcome to Inventory Management Dashboard</h1>
+    <p>Monitor and manage your inventory with ease</p>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
         <div class="chart-container">
             <canvas id="myChart" width="800" height="300"></canvas>
         </div>
-
-        <!-- Recent Activity section -->
+    </div>
+    <div class="col-md-4">
         <div class="recent-activity">
             <h2>Recent Activity</h2>
             <ul>
@@ -157,79 +26,80 @@
             </ul>
         </div>
 
-        <!-- Inventory Summary section -->
         <div class="inventory-summary">
             <div class="summary-item">
                 <h3>Total Items</h3>
                 <p>{{ total_items }}</p>
+                <a href="{% url 'inventory-list' %}" class="btn btn-primary">View Items</a>
             </div>
             <div class="summary-item">
                 <h3>Total Quantity</h3>
                 <p>{{ total_quantity }}</p>
+                <a href="{% url 'inventory-list' %}" class="btn btn-primary">View Quantity</a>
             </div>
             <div class="summary-item">
                 <h3>Stock Value</h3>
                 <p>${{ stock_value }}</p>
+                <a href="{% url 'inventory-list' %}" class="btn btn-primary">View Stock</a>
             </div>
         </div>
     </div>
+</div>
 
-    <script>
-        // Chart.js configuration
-        var ctx = document.getElementById('myChart').getContext('2d');
-        var myChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['January', 'February', 'March', 'April', 'May', 'June'],
-                datasets: [{
-                    label: 'Inventory Items',
-                    data: [12, 19, 3, 5, 2, 3],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1
-                }]
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+            datasets: [{
+                label: 'Inventory Items',
+                data: [12, 19, 3, 5, 2, 3],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
             },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top',
+                    labels: {
+                        font: {
+                            size: 14
+                        }
                     }
                 },
-                plugins: {
-                    legend: {
-                        display: true,
-                        position: 'top',
-                        labels: {
-                            font: {
-                                size: 14
-                            }
-                        }
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function(tooltipItem) {
-                                return tooltipItem.label + ': ' + tooltipItem.raw.toFixed(2);
-                            }
+                tooltip: {
+                    callbacks: {
+                        label: function(tooltipItem) {
+                            return tooltipItem.label + ': ' + tooltipItem.raw.toFixed(2);
                         }
                     }
                 }
             }
-        });
-    </script>
-
-</body>
-</html>
+        }
+    });
+</script>
+{% endblock %}
