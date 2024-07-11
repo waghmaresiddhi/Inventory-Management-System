@@ -1,8 +1,10 @@
 from django.shortcuts import render
+from django.db.models import Count
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from .models import InventoryItem
 from .forms import InventoryItemForm
+import calendar
 
 def dashboard(request):
     inventory_items = InventoryItem.objects.all()
@@ -10,12 +12,34 @@ def dashboard(request):
     total_quantity = sum(item.quantity for item in inventory_items)
     stock_value = sum(item.quantity * item.unit_price for item in inventory_items)
     recent_activities = ["Added new item", "Updated item quantity", "Deleted an item"]
+
+    # Initialize a dictionary for all months
+    monthly_data = {month: 0 for month in calendar.month_name[1:]}
+
+    # Group data by month for the chart
+    inventory_by_month = (
+        inventory_items
+        .extra(select={'month': "strftime('%%m', purchase_date)"})
+        .values('month')
+        .annotate(total=Count('id'))  # Count the number of items
+        .order_by('month')
+    )
+
+    # Update monthly data with actual values
+    for item in inventory_by_month:
+        month_name = calendar.month_name[int(item['month'])]
+        monthly_data[month_name] = item['total']
+
+    chart_data = {
+        'labels': list(monthly_data.keys()),
+        'data': list(monthly_data.values()),
+    }
     
     context = {
         'total_items': total_items,
-        'total_quantity': total_quantity,
         'stock_value': stock_value,
         'recent_activities': recent_activities,
+        'chart_data': chart_data,
     }
     return render(request, 'inventoryy/dashboard.html', context)
 

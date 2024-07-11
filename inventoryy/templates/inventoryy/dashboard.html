@@ -33,11 +33,6 @@
                 <a href="{% url 'inventory-list' %}" class="btn btn-primary">View Items</a>
             </div>
             <div class="summary-item">
-                <h3>Total Quantity</h3>
-                <p>{{ total_quantity }}</p>
-                <a href="{% url 'inventory-list' %}" class="btn btn-primary">View Quantity</a>
-            </div>
-            <div class="summary-item">
                 <h3>Stock Value</h3>
                 <p>${{ stock_value }}</p>
                 <a href="{% url 'inventory-list' %}" class="btn btn-primary">View Stock</a>
@@ -52,26 +47,12 @@
     var myChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+            labels: {{ chart_data.labels|safe }},
             datasets: [{
                 label: 'Inventory Items',
-                data: [12, 19, 3, 5, 2, 3],
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
-                ],
+                data: {{ chart_data.data|safe }},
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
                 borderWidth: 1
             }]
         },
@@ -94,7 +75,7 @@
                 tooltip: {
                     callbacks: {
                         label: function(tooltipItem) {
-                            return tooltipItem.label + ': ' + tooltipItem.raw.toFixed(2);
+                            return tooltipItem.label + ': ' + tooltipItem.raw.toFixed(0);
                         }
                     }
                 }
