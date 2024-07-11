@@ -9,7 +9,7 @@ def dashboard(request):
     total_items = inventory_items.count()
     total_quantity = sum(item.quantity for item in inventory_items)
     stock_value = sum(item.quantity * item.unit_price for item in inventory_items)
-    recent_activities = ["Added new item", "Updated item quantity", "Deleted an item"]  # Replace with real activities if available
+    recent_activities = ["Added new item", "Updated item quantity", "Deleted an item"]
     
     context = {
         'total_items': total_items,
@@ -30,9 +30,6 @@ class InventoryCreateView(CreateView):
     form_class = InventoryItemForm
     success_url = reverse_lazy('inventory-list')
 
-    def form_valid(self, form):
-        return super().form_valid(form)
-
 class InventoryDetailView(DetailView):
     model = InventoryItem
     template_name = 'inventoryy/inventory_detail.html'
@@ -40,13 +37,13 @@ class InventoryDetailView(DetailView):
 
 class InventoryUpdateView(UpdateView):
     model = InventoryItem
-    template_name = 'inventoryy/inventory_form.html'
+    template_name = 'inventoryy/inventory_update.html'
     form_class = InventoryItemForm
 
     def get_success_url(self):
-        return reverse_lazy('inventory_detail', kwargs={'pk': self.object.pk})
+        return reverse_lazy('inventory-detail', kwargs={'pk': self.object.pk})
 
 class InventoryDeleteView(DeleteView):
     model = InventoryItem
     template_name = 'inventoryy/inventory_confirm_delete.html'
-    success_url = reverse_lazy('inventory_list')
+    success_url = reverse_lazy('inventory-list')
