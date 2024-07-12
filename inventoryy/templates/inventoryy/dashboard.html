@@ -41,6 +41,29 @@
     </div>
 </div>
 
+<h3>Inventory by Month</h3>
+<canvas id="inventoryChart" width="400" height="200"></canvas>
+
+<h3>Notifications</h3>
+<div class="notification-section">
+    <a href="?show_low_stock=true" class="btn btn-warning">View Low Stock Items</a>
+</div>
+
+{% if show_low_stock %}
+    <div class="low-stock-items">
+        <h4>Low Stock Items</h4>
+        {% if low_stock_items %}
+            <ul>
+                {% for item in low_stock_items %}
+                    <li>{{ item.name }}: {{ item.quantity }} (Minimum Required: {{ item.minimum_stock_level }})</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No low stock items.</p>
+        {% endif %}
+    </div>
+{% endif %}
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     var ctx = document.getElementById('myChart').getContext('2d');
@@ -60,24 +83,6 @@
             scales: {
                 y: {
                     beginAtZero: true
-                }
-            },
-            plugins: {
-                legend: {
-                    display: true,
-                    position: 'top',
-                    labels: {
-                        font: {
-                            size: 14
-                        }
-                    }
-                },
-                tooltip: {
-                    callbacks: {
-                        label: function(tooltipItem) {
-                            return tooltipItem.label + ': ' + tooltipItem.raw.toFixed(0);
-                        }
-                    }
                 }
             }
         }

@@ -3,38 +3,60 @@
 {% block title %}Inventory List{% endblock %}
 
 {% block content %}
-<div class="container">
-    <h2>Inventory List</h2>
-    <table class="table table-striped">
-        <thead>
+<h1>Inventory List</h1>
+
+<form method="get" class="form-inline mb-4">
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Quantity</th>
+            <th>Unit Price</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in inventory_items %}
             <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Quantity</th>
-                <th>Unit Price</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in inventory_items %}
-            <tr>
-                <td>{{ item.id }}</td>
                 <td>{{ item.name }}</td>
                 <td>{{ item.description }}</td>
                 <td>{{ item.quantity }}</td>
-                <td>{{ item.unit_price }}</td>
+                <td>${{ item.unit_price }}</td>
                 <td>
                     <a href="{% url 'inventory-detail' item.pk %}" class="btn btn-info">View</a>
-                    <a href="{% url 'inventory-update' item.pk %}" class="btn btn-warning">Edit</a>
-                    <form action="{% url 'inventory-delete' item.pk %}" method="post" style="display:inline;">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-danger">Delete</button>
-                    </form>
+                    <a href="{% url 'inventory-edit' item.pk %}" class="btn btn-warning">Edit</a>
+                    <a href="{% url 'inventory-delete' item.pk %}" class="btn btn-danger">Delete</a>
                 </td>
             </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+        {% empty %}
+            <tr>
+                <td colspan="5">No inventory items available.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
 </div>
+
 {% endblock %}

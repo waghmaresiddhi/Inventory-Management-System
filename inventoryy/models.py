@@ -12,6 +12,12 @@ class InventoryItem(models.Model):
     activity_status = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    minimum_stock_level = models.IntegerField(default=0)  # New field for minimum stock level
 
     def __str__(self):
         return self.name
+
+    def check_stock(self):
+        if self.quantity < self.minimum_stock_level:
+            return True
+        return False
