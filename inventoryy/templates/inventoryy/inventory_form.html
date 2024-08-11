@@ -1,18 +1,61 @@
 {% extends 'base.html' %}
 
-{% block title %}Create New Inventory Item{% endblock %}
+{% block title %}
+    {% if form.instance.pk %}
+        Edit Inventory Item
+    {% else %}
+        Create New Inventory Item
+    {% endif %}
+{% endblock %}
 
 {% block content %}
-<div class="card">
-    <div class="card-header">
-        <h5 class="card-title">Create New Inventory Item</h5>
-    </div>
-    <div class="card-body">
-        <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="btn btn-primary">Save</button>
-        </form>
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="card-title mb-0">
+                        {% if form.instance.pk %}
+                            Edit Inventory Item
+                        {% else %}
+                            Create New Inventory Item
+                        {% endif %}
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <div class="form-group">
+                            {{ form.non_field_errors }}
+                        </div>
+
+                        {% for field in form %}
+                            <div class="form-group">
+                                <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                                {{ field|add_class:"form-control"|safe }}
+                                <div class="invalid-feedback">
+                                    {% for error in field.errors %}
+                                        <div>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endfor %}
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">
+                                {% if form.instance.pk %}
+                                    Save changes
+                                {% else %}
+                                    Save
+                                {% endif %}
+                            </button>
+                            <a href="{% url 'inventory-list' %}" class="btn btn-secondary">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}

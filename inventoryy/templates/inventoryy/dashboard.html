@@ -3,11 +3,13 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
+<!-- Dashboard Header -->
 <div class="dashboard-header">
     <h1>Welcome to Inventory Management Dashboard</h1>
     <p>Monitor and manage your inventory with ease</p>
 </div>
 
+<!-- Dashboard Content -->
 <div class="row">
     <div class="col-md-8">
         <div class="chart-container">
@@ -41,9 +43,11 @@
     </div>
 </div>
 
+<!-- Monthly Inventory Chart -->
 <h3>Inventory by Month</h3>
 <canvas id="inventoryChart" width="400" height="200"></canvas>
 
+<!-- Notifications -->
 <h3>Notifications</h3>
 <div class="notification-section">
     <a href="?show_low_stock=true" class="btn btn-warning">View Low Stock Items</a>
@@ -74,8 +78,8 @@
             datasets: [{
                 label: 'Inventory Items',
                 data: {{ chart_data.data|safe }},
-                backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                borderColor: 'rgba(54, 162, 235, 1)',
+                backgroundColor: 'rgba(255, 105, 180, 0.2)', /* Baby pink */
+                borderColor: 'rgba(255, 105, 180, 1)', /* Baby pink */
                 borderWidth: 1
             }]
         },

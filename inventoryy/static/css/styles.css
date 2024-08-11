@@ -1,128 +1,221 @@
-/* Enhanced styles for a more professional look */
-
+/* General Styles */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f8f9fa;
+    font-family: 'Roboto', sans-serif;
+    background-color: #F5F5F5; /* Light gray background */
     margin: 0;
     padding: 0;
+    color: #333; /* Dark text color */
 }
 
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
+/* Navigation Bar Styles */
 .navbar {
-    background-color: #343a40;
-    padding: 10px 0;
-    margin-bottom: 30px;
+    background-color: #E0E0E0; /* Light gray */
+    border-bottom: 1px solid #ccc; /* Slightly darker gray border */
 }
 
-.navbar ul {
-    list-style-type: none;
-    padding: 0;
-    text-align: center;
+.navbar-brand, .nav-link {
+    color: #333; /* Dark gray text */
 }
 
-.navbar ul li {
-    display: inline-block;
-    margin-right: 20px;
+.navbar-nav .nav-link {
+    color: #333 !important; /* Dark gray text for nav links */
 }
 
-.navbar ul li a {
-    color: #ffffff;
-    text-decoration: none;
-    font-size: 18px;
-    transition: all 0.3s ease;
+.navbar-nav .nav-link:hover {
+    color: #000; /* Black text on hover */
 }
 
-.navbar ul li a:hover {
-    color: #ffc107;
+/* Active Page Link */
+.navbar-nav .nav-item.active .nav-link {
+    font-weight: bold;
+    color: #007bff; /* Highlight color for active link */
 }
 
+/* Container Styles */
+.container {
+    background-color: #ffffff; /* White background */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    max-width: 90%; /* Adjusted width for better look */
+    transition: box-shadow 0.3s ease; /* Retained transition for box-shadow only */
+}
+
+.container:hover {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    transform: scale(1.02); /* Optional: Remove if you don't want scaling effect */
+}
+
+/* Header Styles */
 .dashboard-header {
+    background-color: #F7C6C7; /* Baby pink */
+    color: #004D40; /* Contrasting teal */
+    padding: 20px;
+    border-radius: 8px;
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 
 .dashboard-header h1 {
-    color: #343a40;
-    font-size: 36px;
-    margin-bottom: 10px;
+    font-size: 1.75rem; /* Adjusted font size */
+    margin-bottom: 0.5rem;
 }
 
 .dashboard-header p {
-    color: #6c757d;
-    font-size: 18px;
-    font-weight: 300;
+    font-size: 1rem; /* Adjusted font size */
 }
 
-.chart-container, .recent-activity, .inventory-summary {
-    background-color: #ffffff;
+/* Card Styles */
+.card {
+    border: 1px solid #E0E0E0;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: #ffffff; /* White background */
+}
+
+.card:hover {
+    transform: translateY(-8px); /* Optional: Remove if you don't want lifting effect */
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+}
+
+.card-body {
     padding: 20px;
-    margin-bottom: 30px;
 }
 
-.chart-container canvas {
-    width: 100%;
-    height: auto;
-}
-
-.recent-activity ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-.recent-activity ul li {
-    margin-bottom: 10px;
-}
-
-.inventory-summary {
-    display: flex;
-    justify-content: space-between;
-}
-
-.summary-item {
-    text-align: center;
-    padding: 20px;
+/* Buttons */
+.btn-primary, .btn-warning {
     border-radius: 8px;
-    background-color: #f1f1f1;
-}
-
-.summary-item h3 {
-    font-size: 24px;
-    margin-bottom: 10px;
-}
-
-.summary-item p {
-    font-size: 18px;
-    margin-bottom: 10px;
-}
-
-.summary-item a {
-    display: block;
-    width: 100%;
-    max-width: 150px;
-    margin: 0 auto;
-    margin-top: 10px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .btn-primary {
-    background-color: #007bff;
-    color: #ffffff;
+    background-color: #F7C6C7; /* Baby pink */
     border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background-color: #F4A5A6; /* Slightly darker pink */
+    transform: scale(1.05); /* Optional: Remove if you don't want scaling effect */
+}
+
+.btn-warning {
+    background-color: #FF6F61; /* Coral */
+    border: none;
+    color: #fff;
+}
+
+.btn-warning:hover {
+    background-color: #FF4C4A; /* Darker coral */
+    transform: scale(1.05); /* Optional: Remove if you don't want scaling effect */
+}
+
+/* Modal Styles */
+.modal-content {
+    border-radius: 8px;
+}
+
+.modal-header {
+    background-color: #F7C6C7; /* Baby pink */
+    color: #004D40; /* Contrasting teal */
+}
+
+.modal-footer {
+    background-color: #F5F5F5; /* Light gray */
+}
+
+/* Chart Container */
+.chart-container {
+    position: relative;
+    height: 250px;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.chart-container canvas {
+    height: 100% !important;
+    width: 100% !important;
+}
+
+/* Circle Panel */
+.circle-panel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #F5F5F5; /* Light gray */
+    padding: 15px;
+    border-radius: 50%;
+    border: 5px solid #004D40; /* Contrasting teal */
+}
+
+.circle-number {
+    font-size: 1.5rem;
+    color: #F7C6C7; /* Baby pink */
+    font-weight: bold;
+}
+
+/* Notification Section */
+.notification-section {
+    margin-top: 15px;
+}
+
+/* Vertical Spacing Between Buttons */
+.notification-section .btn {
+    margin-bottom: 10px; /* Add vertical space between buttons */
+}
+
+/* Form Styles */
+form {
+    margin-top: 20px;
+}
+
+/* Form group styles */
+.form-group {
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+/* General form control styles */
+.form-control {
+    border-radius: 0.25rem;
+    border: 1px solid #ced4da;
+    padding: 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+/* Label styles */
+form label {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+/* Button styles */
+.btn-primary {
+    border-radius: 0.25rem;
+    background-color: #007bff;
+    border: none;
+    color: #fff;
+    padding: 0.75rem 1.5rem;
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
+    font-size: 1rem;
+    line-height: 1.5;
+    transition: background-color 0.2s ease;
 }
 
 .btn-primary:hover {
     background-color: #0056b3;
+}
+
+/* Responsive Design */
+@media (max-width: 767.98px) {
+    .form-group {
+        margin-bottom: 1rem;
+    }
 }

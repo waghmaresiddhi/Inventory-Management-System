@@ -1,0 +1,13 @@
+{% extends 'inventoryy/base.html' %}
+
+{% block title %}Edit Inventory Item{% endblock %}
+
+{% block content %}
+<h1>Edit Inventory Item</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Save changes</button>
+    <a href="{% url 'inventory-list' %}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

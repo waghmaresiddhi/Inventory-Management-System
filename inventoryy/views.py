@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.db.models import Count, F
 from django.urls import reverse_lazy
 from django.core.mail import send_mail
@@ -76,32 +76,9 @@ class InventoryListView(ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        form = InventorySearchForm(self.request.GET)
-        if form.is_valid():
-            query = form.cleaned_data.get('query')
-            category = form.cleaned_data.get('category')
-            supplier = form.cleaned_data.get('supplier')
-            location = form.cleaned_data.get('location')
-            status = form.cleaned_data.get('status')
-            date_range_start = form.cleaned_data.get('date_range_start')
-            date_range_end = form.cleaned_data.get('date_range_end')
-            sort_by = form.cleaned_data.get('sort_by')
-
-            if query:
-                queryset = queryset.annotate(search=SearchVector('name', 'description')).filter(search=query)
-            if category:
-                queryset = queryset.filter(category__icontains=category)
-            if supplier:
-                queryset = queryset.filter(supplier__icontains=supplier)
-            if location:
-                queryset = queryset.filter(location__icontains=location)
-            if status:
-                queryset = queryset.filter(status__icontains=status)
-            if date_range_start and date_range_end:
-                queryset = queryset.filter(purchase_date__range=(date_range_start, date_range_end))
-            if sort_by:
-                queryset = queryset.order_by(sort_by)
-
+        search_query = self.request.GET.get('search', '')
+        if search_query:
+            queryset = queryset.filter(name__icontains=search_query)
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -113,12 +90,12 @@ class InventoryCreateView(CreateView):
     model = InventoryItem
     template_name = 'inventoryy/create_inventory.html'
     form_class = InventoryItemForm
-    success_url = reverse_lazy('inventory-list')  # Correct URL name for inventory list
+    success_url = reverse_lazy('inventory-list')
 
 class InventoryDetailView(DetailView):
     model = InventoryItem
     template_name = 'inventoryy/inventory_detail.html'
-    context_object_name = 'inventory_item'
+    context_object_name = 'item'
 
 class InventoryUpdateView(UpdateView):
     model = InventoryItem
